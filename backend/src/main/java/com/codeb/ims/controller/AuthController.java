@@ -39,6 +39,11 @@ public class AuthController {
     @Autowired
     private EmailSimulatorService emailSimulator;
 
+    @GetMapping("/health")
+    public ResponseEntity<?> health() {
+        return ResponseEntity.ok("OK");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Optional<User> userOpt = userRepository.findByEmail(loginRequest.getEmail());

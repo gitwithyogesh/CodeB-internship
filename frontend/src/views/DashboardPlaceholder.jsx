@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Shield } from 'lucide-react';
+import Sidebar from '../components/Sidebar';
+import Dashboard from './Dashboard';
+import Hierarchy from './Hierarchy';
+import Clients from './Clients';
+import Estimates from './Estimates';
+import Invoices from './Invoices';
+import Users from './Users';
+import { User, Shield } from 'lucide-react';
 
 export default function DashboardPlaceholder() {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  
   const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : { fullName: 'User', role: 'SALES_PERSON', email: '' };
 
@@ -14,39 +23,79 @@ export default function DashboardPlaceholder() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', padding: '40px', background: '#090a0f', color: '#f3f4f6' }}>
-      <div className="glass" style={{ maxWidth: '600px', margin: '0 auto', padding: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <h1 className="gradient-text" style={{ fontFamily: 'var(--font-title)', fontSize: '32px' }}>
-          Welcome to Code-B IMS
-        </h1>
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '20px' }}>
-          <div style={{ background: 'var(--primary-gradient)', padding: '16px', borderRadius: '50%' }}>
-            <User size={32} color="white" />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-title)' }}>{user.fullName}</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>{user.email}</p>
-          </div>
-        </div>
+    <div style={{ minHeight: '100vh', background: '#090a0f', color: '#f3f4f6', display: 'flex' }}>
+      
+      {/* Sidebar navigation panel */}
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        userRole={user.role} 
+        handleLogout={handleLogout} 
+      />
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-            <span style={{ color: 'var(--text-secondary)' }}>System Role:</span>
-            <span style={{ fontWeight: '600', color: user.role === 'ADMIN' ? 'var(--secondary)' : 'var(--primary)' }}>
+      {/* Main Shell Page Content */}
+      <div style={{
+        marginLeft: '260px', // matches sidebar width
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
+        
+        {/* Top Header Row */}
+        <header style={{
+          height: '70px',
+          background: 'rgba(18, 20, 30, 0.4)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid var(--border-color)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          padding: '0 32px',
+          position: 'sticky',
+          top: 0,
+          zIndex: 90
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '14px', fontWeight: 600 }}>{user.fullName}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{user.email}</div>
+            </div>
+            <div style={{ 
+              background: 'var(--primary-gradient)', 
+              padding: '8px', 
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <User size={18} color="white" />
+            </div>
+            <span className="verify-badge" style={{ 
+              background: user.role === 'ADMIN' ? 'rgba(236,72,153,0.15)' : 'var(--primary-glow)',
+              color: user.role === 'ADMIN' ? 'var(--secondary)' : 'var(--primary)',
+              border: 'none',
+              padding: '2px 6px',
+              fontSize: '10px',
+              fontWeight: 700
+            }}>
               {user.role}
             </span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px' }}>
-            <span style={{ color: 'var(--text-secondary)' }}>Session Status:</span>
-            <span style={{ color: 'var(--success)' }}>Active & Secure</span>
-          </div>
-        </div>
+        </header>
 
-        <button onClick={handleLogout} className="btn btn-danger" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '12px' }}>
-          <LogOut size={16} /> Sign Out
-        </button>
+        {/* Dynamic Tab Pane Render */}
+        <main style={{ padding: '32px', flex: 1 }}>
+          {activeTab === 'dashboard' && <Dashboard />}
+          {activeTab === 'hierarchy' && <Hierarchy userRole={user.role} />}
+          {activeTab === 'clients' && <Clients userRole={user.role} />}
+          {activeTab === 'estimates' && <Estimates userRole={user.role} />}
+          {activeTab === 'invoices' && <Invoices userRole={user.role} />}
+          {activeTab === 'users' && <Users />}
+        </main>
+
       </div>
+
     </div>
   );
 }
