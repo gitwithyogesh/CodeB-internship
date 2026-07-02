@@ -9,7 +9,7 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://https://codeb-internship-backend.onrender.com',
+        target: 'https://codeb-internship-backend.onrender.com',
         changeOrigin: true,
         secure: false
       }
