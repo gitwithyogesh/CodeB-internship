@@ -2,6 +2,7 @@ import React from 'react';
 import { 
   LayoutDashboard, 
   GitMerge, 
+  Building2,
   Users, 
   FileText, 
   Receipt, 
@@ -11,11 +12,12 @@ import {
 
 export default function Sidebar({ activeTab, setActiveTab, userRole, handleLogout }) {
   const menuItems = [
-    { id: 'dashboard', name: 'Dashboard', icon: LayoutDashboard },
-    { id: 'hierarchy', name: 'Client Hierarchy', icon: GitMerge },
-    { id: 'clients', name: 'Clients Directory', icon: Users },
-    { id: 'estimates', name: 'Sales Estimates', icon: FileText },
-    { id: 'invoices', name: 'Invoices & Payments', icon: Receipt },
+    { id: 'dashboard',   name: 'Dashboard',         icon: LayoutDashboard },
+    { id: 'hierarchy',   name: 'Client Hierarchy',   icon: GitMerge },
+    { id: 'manageChain', name: 'Manage Chain',       icon: Building2 },
+    { id: 'clients',     name: 'Clients Directory',  icon: Users },
+    { id: 'estimates',   name: 'Sales Estimates',    icon: FileText },
+    { id: 'invoices',    name: 'Invoices & Payments',icon: Receipt },
   ];
 
   // Admin-only menu items

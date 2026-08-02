@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Dashboard from './Dashboard';
 import Hierarchy from './Hierarchy';
+import ManageChain from './ManageChain';
 import Clients from './Clients';
 import Estimates from './Estimates';
 import Invoices from './Invoices';
@@ -86,12 +87,13 @@ export default function DashboardPlaceholder() {
 
         {/* Dynamic Tab Pane Render */}
         <main style={{ padding: '32px', flex: 1 }}>
-          {activeTab === 'dashboard' && <Dashboard />}
-          {activeTab === 'hierarchy' && <Hierarchy userRole={user.role} />}
-          {activeTab === 'clients' && <Clients userRole={user.role} />}
-          {activeTab === 'estimates' && <Estimates userRole={user.role} />}
-          {activeTab === 'invoices' && <Invoices userRole={user.role} />}
-          {activeTab === 'users' && <Users />}
+          {activeTab === 'dashboard'   && <Dashboard />}
+          {activeTab === 'hierarchy'   && <Hierarchy userRole={user.role} />}
+          {activeTab === 'manageChain' && <ManageChain userRole={user.role} />}
+          {activeTab === 'clients'     && <Clients userRole={user.role} />}
+          {activeTab === 'estimates'   && <Estimates userRole={user.role} />}
+          {activeTab === 'invoices'    && <Invoices userRole={user.role} />}
+          {activeTab === 'users'       && <Users />}
         </main>
 
       </div>
